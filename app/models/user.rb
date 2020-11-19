@@ -9,4 +9,5 @@ class User < ApplicationRecord
 
   def subscribed?
     stripe_subcription_id?
+  end
 end

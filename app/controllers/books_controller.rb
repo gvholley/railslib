@@ -1,30 +1,25 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_action :set_book, only: [:show, :edit, :update, :destroy, :library]
+  before_action :authenticate_user!, except: [:index, :show]
 
-  # GET /books
-  # GET /books.json
   def index
     @books = Book.all
   end
 
-  # GET /books/1
-  # GET /books/1.json
   def show
   end
 
-  # GET /books/new
+
   def new
-    @book = Book.new
+    @book = current_user.books.build
   end
 
-  # GET /books/1/edit
   def edit
   end
 
-  # POST /books
-  # POST /books.json
+
   def create
-    @book = Book.new(book_params)
+    @book = current_user.books.build(book_params)
 
     respond_to do |format|
       if @book.save
@@ -60,6 +55,23 @@ class BooksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+  #Add or remove books from library
+  def library
+    type = params[:type]
+    if type == "add"
+      current_user.library_additions << @book
+      redirect_to library_index_path
+    elsif type == "remove"
+      current_user.library_additions.delete(@book)
+      redirect_to root_path
+    else
+      #nothing should happen
+      redirect_to book_path(@book)
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
