@@ -1,0 +1,9 @@
+<h1>Library</h1>
+
+<% if @library_books.exists? %>
+<div class="container">
+  <%= render @library_books, book: @book %>
+</div>
+<% else %>
+<p>No books yet</p>
+<% end %>

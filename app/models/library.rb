@@ -1,4 +1,4 @@
 class Library < ApplicationRecord
-  belongs_to :books
+  belongs_to :book
   belongs_to :user
 end

@@ -5,12 +5,9 @@ Rails.application.routes.draw do
       put "remove", to: "books#library"
     end
   end
-  resources :library, only: [:index]
-  resources :pricing, only: [:index]
+  resources :library, only:[:index]
+  resources :pricing, only:[:index]
   devise_for :users, controllers: { registrations: "registrations" }
   root to: 'books#index'
   resources :subscriptions
-
-
-mount StripeEvent::Engine, at: '/stripe-webhooks'
 end
